@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta itemprop="image" content="/static/extra/img/favicon.ico">
+    <title>salt dashboard</title>
+
+    {% include 'css.html' %}
+    {% include 'js.html' %}
+  </head>
+  <body>
+    <div class="container">
+      <div class="row-fluid">
+        {% include 'header.html' %}
+      </div>
+      <!--content-->
+      <div class="row-fluid">
+        <!--Sidebar content-->
+        <div class="span2">
+          {% block sidebar %}
+          {% endblock %}
+        </div>
+        <!--Body content-->
+        <div class="span10" id="body_load">
+            {% block body %}{% endblock %}
+        </div>
+      </div>
+      <!--footer-->
+      <div class="row-fluid" style="position:fixed;bottom:0px; margin: 0 20px;width:auto;">
+        {% include 'footer.html' %}
+      </div>
+	</div>
+    {% block extrajs  %}{% endblock  %}
+    {% block extracss  %}{% endblock  %}
+  </body>
+</html>

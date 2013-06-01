@@ -1,0 +1,37 @@
+
+<script>
+jQuery(function($){
+   var loadObj = $('<div class="common-loading-img" id="loading-img" style="display:none"></div>');
+   loadObj.html('<img width="32" height="32" src="/static/extra/img/loadings.gif" /><span>数据正在加载中...,请稍后</span>');
+   $(document.body).append(loadObj);
+});
+</script>
+<div class="messages">
+{{test}}
+{% for message in messages %}
+  {% if "info" in message.tags %}
+    <div class="alert alert-block alert-info fade in">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <p><strong>提示：</strong>{{ message }}</p>
+    </div>
+  {% endif %}
+  {% if "warning" in message.tags %}
+    <div class="alert alert-block alert-warning fade in">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <p><strong>警告：</strong>{{ message }}</p>
+    </div>
+  {% endif %}
+  {% if "success" in message.tags %}
+    <div class="alert alert-block alert-success fade in">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <p><strong>成功了：</strong>{{ message }}</p>
+    </div>
+  {% endif %}
+  {% if "error" in message.tags %}
+    <div class="alert alert-block alert-error fade in">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <p><strong>出错了：</strong>{{ message }}</p>
+    </div>
+  {% endif %}
+{% endfor %}
+</div>

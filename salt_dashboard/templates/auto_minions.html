@@ -1,0 +1,34 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Host</th>
+      <th>型号</th>
+      <th>配置</th>
+      <th>系统</th>
+      <th>更新</th>
+      <th>选项</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for grain in page_tables %}
+    <tr>
+      <td>{{grain.IP}}</td>
+      <td>{{grain.manufacturer}}/{{grain.productname}}</td>
+      <td>{{grain.num_cpus}}U/{{grain.mem_total}}M RAM</td>
+      <td>{{grain.os}}-{{grain.osrelease}}</td>
+      <td>{{grain.time_diff}}</td>
+      <td><a onClick="my_ajax_replace('/detail?target={{grain.id}}','dialog')"  href="#" type="button" class="btn btn-success">detail</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination" style="text-align:center">
+    <ul>
+        <li><a href="#" onclick="my_ajax_replace('/overview?page={{current_page|add:"-1"}}','instances')">prv</a></li>
+        {% for page in page_num  %}
+        <li class="{% ifequal current_page page %}active{% endifequal %}"><a href="#"  onclick="my_ajax_replace('/auto/overview?page={{page}}','instances')">{{page|add:"1"}}</a></li>
+        {% endfor %}
+        <li><a href="#" onclick="my_ajax_replace('/overview?page={{current_page|add:"1"}}','instances')">next</a></li>
+    </ul>
+</div>

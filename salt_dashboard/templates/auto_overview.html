@@ -1,0 +1,74 @@
+<div>
+  <div class='span5' id="os" style="width: 47%; height: 362px;"></div>
+  <div class='span5' id="virtual" style="width: 47%; height: 362px;"></div>
+</div>
+<script>
+    var chart_zones;
+    var chart_zonesData = [
+    {% for os,count in minions_os.items  %}      
+        {
+          os :'{{os}}',
+          count :'{{count}}'
+      },
+    {% endfor %}
+      
+    ];
+    chart_zones = new AmCharts.AmPieChart();
+    chart_zones.addTitle("OS({{minions_num}})", 16);
+    chart_zones.dataProvider = chart_zonesData;
+    chart_zones.titleField = "os";
+    chart_zones.valueField = "count";
+    chart_zones.sequencedAnimation = true;
+    chart_zones.innerRadius = "30%";
+    chart_zones.startDuration = 2;
+    chart_zones.depth3D = 10;
+    chart_zones.angle = 15;
+    chart_zones.labelText = '';
+    chart_zones.write("os");
+
+
+    var chart_virtuals;
+    var chart_virtualsData = [
+    {% for virtual,count in minions_virtual.items  %}      
+        {
+          virtual :'{{virtual}}',
+          counts :'{{count}}'
+      },
+    {% endfor %}
+      
+    ];
+    chart_virtuals = new AmCharts.AmPieChart();
+    chart_virtuals.addTitle("OS({{minions_num}})", 16);
+    chart_virtuals.dataProvider = chart_virtualsData;
+    chart_virtuals.titleField = "virtual";
+    chart_virtuals.valueField = "counts";
+    chart_virtuals.sequencedAnimation = true;
+    chart_virtuals.innerRadius = "30%";
+    chart_virtuals.startDuration = 2;
+    chart_virtuals.depth3D = 10;
+    chart_virtuals.angle = 15;
+    chart_virtuals.labelText = '';
+    chart_virtuals.write("virtual");
+</script>
+
+<span class="label label-success">state error host in the lastest</span>
+<table class="table table-bordered" class='text-center'>
+  <thead>
+    <tr>
+      <th>Host</th>
+      <th>module</th>
+      <th>time</th>
+      <th>success</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for host in error_host  %}
+    <tr>
+      <td>{{host.id}}</td>
+      <td>{{host.fun}}</td>
+      <td>{{host.time}}</td>
+      <td>{{host.success}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

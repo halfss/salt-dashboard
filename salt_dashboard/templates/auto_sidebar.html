@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{# coding=utf8 #}
+{% load i18n %}
+{% block sidebar%}
+<div class="row-fluid">
+    <a style="width:120px;" class="btn btn-inverse disabled use-disabled-width"><strong>OPS</strong></a>
+</div>
+<hr/>
+<ul class="nav nav-tabs nav-stacked main-menu" style='text-align:center;' id="main_ins">
+    <li id='instance'><a onClick="my_ajax_replace('/overview','instances')" id='overview' href="#"><i class=" icon-th"></i>salt</a></li>
+</ul>
+{% endblock %}
+{% block body %}
+
+<style>
+.fs20 {
+   font-size: 20px;
+}
+.torange {
+        color: #666600;
+}
+.cut-line {
+        color: #D6D6D6;
+        margin: 0 5px;
+}
+.mt20 {
+        margin-top: 20px;
+}
+.dt{
+    color: #666666;
+    float: left;
+    font-weight: normal;
+    overflow: hidden;
+    padding: 2px 18px 6px 0;
+    text-align: right;
+    width: 200px;
+    font-size:14px;
+}
+.common-loading-img {
+    left: 50%;
+    margin: -64px 0 0 -64px;
+    position: absolute;
+    top: 50%;
+    z-index: 9999;
+}
+
+</style>
+<script>
+$("#overview").click();
+$(function(){
+  $("#execute").click(function(){
+  
+      $.ajax({
+          type: "POST",
+          url: "/execute",
+          data : $("#form-execute").serialize(),
+          success: function(data){
+              $("#instances").html(data);
+          }
+      });
+  })
+})
+</script>
+<div class='row'>
+    <div class='span10'>
+            <button type="button" class="btn btn-success pull-right"
+                onclick="if(!$('#search_name').val()){alert('plz input target!');return false;};
+                my_ajax_replace('/minions?target='+$('#search_name').val(),'instances')
+                $('#s_name').val($('#search_name').val());
+                $('#search_name').val('')"><i class="icon-search icon-white"></i></button>
+            <input type="text" id="search_name" placeholder="         target:*"  class="input-medium search-query pull-right">
+            <form class="form-inline" id="form-execute" style="margin-bottom:0;">{% csrf_token %}
+                <input type="text" class="input-small" value="*" name="tgt">
+                <input type="text" class="input-small" value="cmd.run" name="fun">
+                <input type="text" class="input-max" value="uptime" name='arg'>
+                <button type="button" class="btn" id="execute">Enter</button>
+           </form>
+    </div>
+</div>
+<hr/>
+<div class='row-fluid' id='instances'>
+</div>
+<div class='row-fluid' id='dialog'>
+</div>
+{% endblock %}
