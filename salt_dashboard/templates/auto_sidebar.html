@@ -3,11 +3,14 @@
 {% load i18n %}
 {% block sidebar%}
 <div class="row-fluid">
-    <a style="width:120px;" class="btn btn-inverse disabled use-disabled-width"><strong>OPS</strong></a>
+    <a style="width:120px;" onClick="my_ajax_replace('/service','dialog')" class="btn btn-inverse "><strong>class manage</strong></a>
 </div>
 <hr/>
 <ul class="nav nav-tabs nav-stacked main-menu" style='text-align:center;' id="main_ins">
     <li id='instance'><a onClick="my_ajax_replace('/overview','instances')" id='overview' href="#"><i class=" icon-th"></i>salt</a></li>
+    {% for service in services %}
+    <li id='{{ service.id }}'><a onClick="my_ajax_replace('/minions?target={{service.target}}','instances')" href="#"><i class=" icon-th"></i>{{service.name}}</a></li>
+    {% endfor %}
 </ul>
 {% endblock %}
 {% block body %}
@@ -71,7 +74,7 @@ $(function(){
             <input type="text" id="search_name" placeholder="         target:*"  class="input-medium search-query pull-right">
             <form class="form-inline" id="form-execute" style="margin-bottom:0;">{% csrf_token %}
                 <input type="text" class="input-small" value="*" name="tgt">
-                <input type="text" class="input-small" value="cmd.run" name="fun">
+                <input type="text" class="input-small" data-provide="typeahead" data-source='["cmd.run_stderr","cmd.run","cmd.exec_code","state.sls","state.highstate"]' value='cmd.run' name="fun">
                 <input type="text" class="input-max" value="uptime" name='arg'>
                 <button type="button" class="btn" id="execute">Enter</button>
            </form>

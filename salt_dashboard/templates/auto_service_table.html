@@ -1,0 +1,18 @@
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Service Name</th>
+          <th>target</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in services %}
+        <tr>
+          <td>{{service.name}}</td>
+          <td>{{service.target}}</td>
+          <td><a onClick="my_ajax_replace('/service?id={{service.id}}','modal_body')"  href="#" type="button" ">删除</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>

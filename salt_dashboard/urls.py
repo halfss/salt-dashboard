@@ -21,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^execute$',execute),
     url(r'^detail$',detail),
     url(r'^getjobinfo$',getjobinfo),
+    url(r'^service$',service),
 )

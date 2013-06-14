@@ -11,13 +11,17 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
+from django.db import connection
 
 from salt_dashboard.api import salt_api,common
-from django.db import connection
+from salt_dashboard.models import *
+
 
 def auto(request):
     context = {}
     context.update(csrf(request))
+    services = Service.objects.all()
+    context['services'] = services
     return render_to_response('auto_sidebar.html', context)
 
 
@@ -134,3 +138,24 @@ def getjobinfo(request):
               "result":result
             }
     return HttpResponse(json.dumps(context))
+
+def service(request):
+    context = {}
+    context.update(csrf(request))
+    if request.method == 'GET':
+        id = request.GET.get('id','')
+        if id:
+            Service.objects.get(id=id).delete()
+        services = Service.objects.all()
+        context['services'] = services
+        return render_to_response('auto_service.html', context)
+    else:
+        service_name = u'%s' %  request.POST.get('name','')
+        service_tgt  = request.POST.get('tgt','')
+        if service_name and service_tgt:
+            try:
+                new_service = Service(name=service_name,target=service_tgt)
+                new_service.save()
+            except:
+                raise
+        return render_to_response('auto_service_table.html', context)

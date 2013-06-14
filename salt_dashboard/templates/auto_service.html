@@ -1,0 +1,45 @@
+<script>
+  $(function(){
+    $('#modal').modal({
+       backdrop: true
+    });
+    $(".close").click(function(){
+      $("#modal").hide();
+    })
+  })
+
+  $(function(){
+    $("#service").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/service",
+            data : $("#form_service").serialize(),
+            success: function(data){
+                $("#modal").hide();
+                $("#modal_body").html(data);
+            }
+        });
+    })
+  })
+
+</script>
+<div id="modal" class="modal" stye="display:none">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3 id="myModalLabel">Service Manage</h3>
+  </div>
+  <div class="modal-body" id='modal_body'>
+
+    {% include "auto_service_table.html" %}
+
+    <form class="form-inline" id='form_service'  method="POST">{% csrf_token %}
+      <input type="text" class="input-medium" name='name' placeholder="service">
+      <input type="text" class="input-big" name='tgt' style="width:300px;" placeholder='target'>
+      <button type="button" id='service'  data-dismiss="modal"  aria-hidden="true" class="btn btn-success pull-right">ADD</button>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn close" data-dismiss="modal" aria-hidden="true">close</button>
+  </div>
+</div>
