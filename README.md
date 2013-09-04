@@ -1,15 +1,25 @@
 #salt dashboard
 
 
-salt-dashboard is based on salt-client,and use mysql returner as result backend
+salt-dashboard is based on salt-client(so deploy this on salt master server),and use mysql returner as result backend
 
 
 ---------------------------------------
 
+
+
+#requirement
+
+<pre>
+pip install django mysql-python
+</pre>
+
+
+
 #1:returner:
 
 
-salt [mysql returner ](http://docs.saltstack.com/ref/returners/all/salt.returners.mysql.html#module-salt.returners.mysql "Title")
+## salt [mysql returner ](http://docs.saltstack.com/ref/returners/all/salt.returners.mysql.html#module-salt.returners.mysql "Title")
 
 add time to salt_returns:
 <pre>
@@ -23,8 +33,25 @@ grant all on salt.* to 'salt'@'localhost' identified by 'salt';
 
 there is a bug when schedule use mysql return,fixed by this [schedule return by mysql ](https://github.com/halfss/salt/commit/3f5805f7b38fc867a3d12b8c36efd023b4957792)
 
-#2:scheduler:
+##salt minion config:
 <pre>
+cat > /etc/salt/minion << EOF
+mysql.host: 'localhost'
+mysql.user: 'salt'
+mysql.pass: 'salt'
+mysql.db: 'salt'
+mysql.port: 3306
+EOF
+</pre>
+
+##salt-dashboard sync db 
+<pre>
+cd salt-dashboard/
+python manage.py syncdb
+</pre>
+
+#2:scheduler:
+[[<pre>]]
 /srv/pillar/top.sls
 <pre>
 base:
@@ -48,15 +75,15 @@ salt '*' saltutil.refresh_pillar
 
 #3:salt-dashboard
   this dashboard is based on django+bootstrap+amcharts
- 
+
   demo screen like this:
     here just on minion, so is seems very simple
-    
-    
+
+
   ![index](https://raw.github.com/halfss/salt-dashboard/master/screenshot/index.png)
   ![minions](https://raw.github.com/halfss/salt-dashboard/master/screenshot/minions.png)
   ![execute](https://raw.github.com/halfss/salt-dashboard/master/screenshot/execute.png)
-   
-   
-   
-    
+
+
+
+
