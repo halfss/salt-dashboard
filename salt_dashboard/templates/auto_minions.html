@@ -12,7 +12,7 @@
   <tbody>
     {% for grain in page_tables %}
     <tr>
-      <td>{{grain.IP}}</td>
+      <td><a onClick="my_ajax_replace('/minion?tgt={{grain.id}}','instances')"  href="#" type="button">{{grain.id}}</a></td>
       <td>{{grain.manufacturer}}/{{grain.productname}}</td>
       <td>{{grain.num_cpus}}U/{{grain.mem_total}}M RAM</td>
       <td>{{grain.os}}-{{grain.osrelease}}</td>

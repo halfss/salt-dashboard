@@ -159,3 +159,45 @@ def service(request):
             except:
                 raise
         return render_to_response('auto_service_table.html', context)
+
+def minion(request):
+    os_dict = {
+        "pillar":{'fun':'pillar.data'},
+        "grains":{'fun':'grains.items'},
+        "cron":{'fun':'cron.list_tab','arg':['root']},
+        "hosts":{'fun':'hosts.list_hosts'},
+        "iptables":{'fun':'iptables.get_rules'},
+        "sysctl":{'fun':'sysctl.show'},
+        "highstate":{'fun':'state.highstate'},
+        "sls":{'fun':'state.sls'},
+        "script":{'fun':'cmd.script'}
+        }
+    context = {}
+    context.update(csrf(request))
+    tgt = request.GET.get('tgt','')
+    cmd_type =  request.GET.get('type')
+    arg = request.GET.get('arg','').split(',')
+    ext_arg = request.GET.get('ext_arg','').split(',')
+    if cmd_type in os_dict.keys():
+        kwargs = {'tgt': tgt,
+              'expr_form': 'glob',
+              'ret': salt_returner,
+              'timeout': 60,
+              'arg':arg
+              }
+        kwargs.update(os_dict[cmd_type])
+        users.privilege(request,kwargs)
+        if cmd_type in ['highstate','sls','script']:
+            jid = salt_api.execute(kwargs)
+            context['jid'] = jid
+            return render_to_response('auto_execute.html', context)
+        else:
+            value = salt_api.execute_sync(kwargs)
+            value = repr(json.dumps(value,sort_keys=True, indent=4))
+            value = value.replace('\\n','<br/>').replace(' ','&nbsp;')
+            context['key'] = cmd_type
+            context['value'] = value
+            return render_to_response('auto_detail.html', context)
+    scripts_info = []
+    context['id'] = tgt
+    return render_to_response('auto_minion.html', context)

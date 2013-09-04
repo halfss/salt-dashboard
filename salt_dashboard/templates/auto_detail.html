@@ -11,10 +11,10 @@
 <div id="modal" class="modal" stye="display:none">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
-    <h3 id="myModalLabel">State Info</h3>
+    <h3 id="myModalLabel">{{key}}</h3>
   </div>
   <div class="modal-body">
-    {{state|safe}}
+    {{value|safe}}
   </div>
   <div class="modal-footer">
     <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>

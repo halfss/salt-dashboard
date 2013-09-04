@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     url(r'^detail$',detail),
     url(r'^getjobinfo$',getjobinfo),
     url(r'^service$',service),
+	url(r'^minion$',minion),
 )

@@ -1,0 +1,54 @@
+<script>
+$(function(){
+  $("#script").change(function(){
+        var id = $("#script").val();
+        my_ajax_replace('/script?id='+id,'args');
+    })
+})
+
+$(function(){
+  $("#script-execute").click(function(){
+  
+      $.ajax({
+          type: "POST",
+          url: "/minion",
+          data : $("#form-script-execute").serialize(),
+          success: function(data){
+              $("#command").html(data);
+          }
+      });
+  })
+})
+
+</script>
+
+<table class="table table-striped">
+  <tbody>
+   <tr>
+    <td>
+      <a class="btn disabled">ID</a>
+    </td>
+    <td>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}','instances')" class='btn disabled' href="#" type="button">{{id}}</a>
+    </td>
+  </tr>
+  <tr>
+    <td><a class="btn disabled">信息</a></td>
+    <td>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=grains','command')" class='btn' href="#" type="button">grains</a>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=pillar','command')" class='btn' href="#" type="button">pillar</a>
+    </td>
+  </tr>
+  <tr>
+    <td><a class="btn disabled">系统管理</a></td>
+    <td>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=cron','command')" class='btn' href="#" type="button">crontab</a>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=hosts','command')" class='btn' href="#" type="button">hosts</a>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=iptables','command')" class='btn' href="#" type="button">iptables</a>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=sysctl','command')" class='btn' href="#" type="button">sysctl</a>
+      <a onClick="my_ajax_replace('/minion?tgt={{id}}&type=highstate','command')" class='btn' href="#" type="button">Highstate</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div id="command" class="row-fluid"></div>
