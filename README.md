@@ -35,13 +35,12 @@ there is a bug when schedule use mysql return,fixed by this [schedule return by 
 
 ##salt minion config:
 <pre>
-cat > /etc/salt/minion << EOF
+vim /etc/salt/minion
 mysql.host: 'localhost'
 mysql.user: 'salt'
 mysql.pass: 'salt'
 mysql.db: 'salt'
 mysql.port: 3306
-EOF
 </pre>
 
 ##salt-dashboard sync db 
