@@ -2,7 +2,7 @@
 import datetime
 import os
 import re
-import md5
+import hashlib
 import json
 
 
